@@ -11,9 +11,9 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ChatFrame extends BaseFrame
+public class LogFrame extends BaseFrame
 {
-    public static ChatFrame instance;
+    public static LogFrame instance;
 
     private static final int FRAME_WIDTH = 800;
     private static final int FRAME_HEIGHT = 800;
@@ -21,7 +21,7 @@ public class ChatFrame extends BaseFrame
     private TitledTextArea logTextArea;
     private TitledList<ClientConnection> connectedClientsList;
 
-    public ChatFrame( )
+    public LogFrame( )
     {
         super( "IRC Server v" + Server.SERVER_VERSION, FRAME_WIDTH, FRAME_HEIGHT );
         this.setResizable( false );

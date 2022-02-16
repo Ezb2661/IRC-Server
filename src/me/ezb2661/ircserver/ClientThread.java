@@ -1,6 +1,6 @@
 package me.ezb2661.ircserver;
 
-import me.ezb2661.ircserver.gui.ChatFrame;
+import me.ezb2661.ircserver.gui.LogFrame;
 
 public class ClientThread extends Thread implements Runnable
 {
@@ -9,7 +9,7 @@ public class ClientThread extends Thread implements Runnable
     public ClientThread( ClientConnection client )
     {
         this.client = client;
-        ChatFrame.instance.logMessage( "[+] Started new thread for client " + this.client.getSocket( ).getInetAddress( ) );
+        LogFrame.instance.logMessage( "[+] Started new thread for client " + this.client.getSocket( ).getInetAddress( ) );
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ClientThread extends Thread implements Runnable
                 }
                 catch( Exception ex1 )
                 {
-                    ChatFrame.instance.logMessage( "[-] Client: " + client + " disconnected." );
+                    LogFrame.instance.logMessage( "[-] Client: " + client + " disconnected." );
                     Server.instance.removeClientThread( this );
                     return;
                 }
@@ -38,8 +38,14 @@ public class ClientThread extends Thread implements Runnable
             }
 
             if( incomingMessage == null ) { continue; }
-            Server.instance.sendMessageToClients( incomingMessage );
-            ChatFrame.instance.logMessage( "[*] [" + this.client.getSocket( ).getInetAddress( ) + "] " + incomingMessage );
+            if( incomingMessage.contains( "nickname: ") && this.client.getClientName( ) == null )
+            {
+                this.client.setClientName( incomingMessage.split("nickname: ")[1] );
+                LogFrame.instance.logMessage( "[*] [" + this.client.getSocket( ).getInetAddress( ) + "] set nickname to: " + this.client.getClientName( ) );
+                continue;
+            }
+            Server.instance.sendMessageToClients( this.client.getClientName( ) + ": " + incomingMessage );
+            LogFrame.instance.logMessage( "[*] [" + this.client.getSocket( ).getInetAddress( ) + " / " + this.client.getClientName( ) + "]: " + incomingMessage );
         }
     }
 

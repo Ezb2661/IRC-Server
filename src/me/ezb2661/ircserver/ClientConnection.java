@@ -37,7 +37,7 @@ public class ClientConnection
         int readBytes = this.inStream.read( incomingData );
         for( int i = 0; i < readBytes; i++ )
         {
-            result.append( incomingData[i] );
+            result.append(Character.toChars( incomingData[i] ) );
         }
         return result.toString( );
     }

@@ -1,14 +1,14 @@
 package me.ezb2661.ircserver;
 
 import me.ezb2661.ircserver.gui.GUIManager;
-import me.ezb2661.ircserver.gui.ChatFrame;
+import me.ezb2661.ircserver.gui.LogFrame;
 
 public class ServerMain
 {
     public static void main( String[] args )
     {
         GUIManager.setup( );
-        ChatFrame.instance = new ChatFrame( );
+        LogFrame.instance = new LogFrame( );
 
         int hostPort = -1;
         for( int i = 0; i < args.length; i++ )

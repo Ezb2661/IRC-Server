@@ -1,7 +1,7 @@
 package me.ezb2661.ircserver;
 
 import me.ezb2661.ircserver.command.CommandManager;
-import me.ezb2661.ircserver.gui.ChatFrame;
+import me.ezb2661.ircserver.gui.LogFrame;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -46,6 +46,7 @@ public class Server extends Thread implements Runnable
                 Socket socket = this.serverSocket.accept( );
                 ClientConnection incomingConnection = new ClientConnection( socket );
                 this.createClientThread( incomingConnection );
+                incomingConnection.writeString( "hello" );
             }
             catch( Exception ex )
             {
@@ -74,7 +75,7 @@ public class Server extends Thread implements Runnable
 
     public void removeClientThread( ClientThread clientThread )
     {
-        ChatFrame.instance.removeClientConnection( clientThread.getClientConnection( ) );
+        LogFrame.instance.removeClientConnection( clientThread.getClientConnection( ) );
         this.clientThreads.remove( clientThread );
         try
         {
@@ -91,7 +92,7 @@ public class Server extends Thread implements Runnable
         ClientThread clientThread = new ClientThread( incomingConnection );
         clientThread.start( );
         this.clientThreads.add( clientThread );
-        ChatFrame.instance.addClientConnection( incomingConnection );
+        LogFrame.instance.addClientConnection( incomingConnection );
     }
 
     public void kickUserId( int idToKick )
